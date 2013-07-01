@@ -1,0 +1,33 @@
+!!! 5
+
+%html{ "lang" => "en", "ng-app" => "app"}
+  %head
+    %meta{ :charset => "utf-8" }/
+    
+    %meta{ "http-equiv" => "X-UA-Compatible", :content => "IE=edge,chrome=1" }/
+    
+    %title Spot
+    %meta{ :name => "viewport", :content => "width=device-width, initial-scale=1.0" }/
+    != css :application, :media => 'screen'
+
+    
+  %body{"ng-controller" => "PlayerController"}
+    .row
+      .small-6.large-centered.columns
+        .row.player
+          %a.topcoat-icon-button{"ng-click" => "toggle()"} 
+            %span.lsf {{ action }} 
+          %form{"ng-submit" => "search()"}
+            %input.topcoat-text-input--large{"type" => "text", "ng-model" => "query"}
+
+          %ul.resultlist
+            %li{"ng-repeat" => "result in results", } 
+              %span{"ng-click" => "add(result.link)"} {{ result.name }}, {{ result.artist }}
+        .row.playlist
+          .topcoat-list__container
+            %h3.topcoat-list__header Playlist
+            %ul.playlist.topcoat-list
+              %li.topcoat-list__item{"ng-repeat" => "item in playlist"} 
+                %span{"ng-mousedown" => "press($event,$index)", "ng-mouseup" => "release()"} {{ item.name }}, {{ item.artist }}
+    %script{ :src => "http://js.pusher.com/2.1/pusher.min.js"}
+    != js :app
